@@ -3,6 +3,7 @@ package com.pgr301.exam;
 import com.pgr301.exam.model.Account;
 import com.pgr301.exam.model.Transaction;
 import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Gauge;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,17 +39,31 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
     public void transfer(@RequestBody Transaction tx, @PathVariable String fromAccount, @PathVariable String toAccount) {
         //meterRegistry.counter("transfer", "amount", String.valueOf(tx.getAmount())).increment();
 
-        Timer timer = meterRegistry.timer("transfer",
+        /*Timer timer = meterRegistry.timer("transfer",
                 "amount", String.valueOf(tx.getAmount()),
                 "fromAccount", fromAccount,
                 "toAccount", toAccount);
         timer.record(() -> {
             try {
-                bankService.transfer(tx, fromAccount, toAccount);
-            } catch (BackEndException exception){
+                //bankService.transfer(tx, fromAccount, toAccount);
+                TimeUnit.MILLISECONDS.sleep(5000);
+            } catch (BackEndException | InterruptedException exception){
                 meterRegistry.counter("backendException").increment();
+                meterRegistry.gauge("amount", tx.getAmount());
             }
-        });
+        });*/
+
+        Timer.Sample timer = Timer.start(meterRegistry);
+        try {
+            bankService.transfer(tx, fromAccount, toAccount);
+        } catch (BackEndException exception){
+            meterRegistry.counter("backendException").increment();
+            meterRegistry.gauge("amount", tx.getAmount());
+        } finally {
+            timer.stop(Timer.builder("transfer").tags("amount", String.valueOf(tx.getAmount()),
+                    "fromAccount", fromAccount,
+                    "toAccount", toAccount).register(meterRegistry));
+        }
     }
 
     @PostMapping(path = "/account", consumes = "application/json", produces = "application/json")
