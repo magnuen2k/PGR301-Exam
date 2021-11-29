@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.util.logging.Logger;
 
 import static java.util.Optional.ofNullable;
@@ -30,50 +31,41 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
     }
 
     @PostMapping(path = "/account/{fromAccount}/transfer/{toAccount}", consumes = "application/json", produces = "application/json")
-    public void transfer(@RequestBody Transaction tx, @PathVariable String fromAccount, @PathVariable String toAccount) {
-        // Should return HTTP status code
-        Timer timer = meterRegistry.timer("responseTime",
-                "method", "transfer");
-        timer.record(() -> {
-            try {
-                bankService.transfer(tx, fromAccount, toAccount);
-            } catch (BackEndException exception){
-                meterRegistry.counter("backendException", "method", "bankService.transfer").increment();
-                Logger.getLogger(this.getClass().getName()).info("Backend exception thrown in method: bankService.transfer");
-            }
-        });
+    public ResponseEntity<HttpStatus> transfer(@RequestBody Transaction tx, @PathVariable String fromAccount, @PathVariable String toAccount) {
+        Timer.Sample timer = Timer.start(meterRegistry);
+        try {
+            bankService.transfer(tx, fromAccount, toAccount);
+        } catch (BackEndException exception){
+            meterRegistry.counter("backendException", "method", "bankService.transfer").increment();
+            Logger.getLogger(this.getClass().getName()).info("Backend exception thrown in method: bankService.transfer");
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            timer.stop(Timer.builder("responseTime").tags("method", "bankService.transfer").register(meterRegistry));
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(path = "/account", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Account> updateAccount(@RequestBody Account a) {
-        Timer timer = meterRegistry.timer("responseTime",
-                "method", "updateAccount");
-        timer.record(() -> {
-            try {
-                bankService.updateAccount(a);
-            } catch (BackEndException exception){
-                meterRegistry.counter("backendException", "method", "bankService.updateAccount").increment();
-                Logger.getLogger(this.getClass().getName()).info("Backend exception thrown in method: bankService.updateAccount");
-            }
-        });
+        Timer.Sample timer = Timer.start(meterRegistry);
+        try {
+            bankService.updateAccount(a);
+        } catch (BackEndException exception){
+            meterRegistry.counter("backendException", "method", "bankService.updateAccount").increment();
+            Logger.getLogger(this.getClass().getName()).info("Backend exception thrown in method: bankService.updateAccount");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            timer.stop(Timer.builder("responseTime").tags("method", "bankService.updateAccount").register(meterRegistry));
+        }
+
         return new ResponseEntity<>(a, HttpStatus.OK);
     }
 
     // Has to have header set: Content-Type: application/json
     @GetMapping(path = "/account/{accountId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Account> balance(@PathVariable String accountId) {
-        /*Timer timer = meterRegistry.timer("responseTime",
-                "method", "balance");
-        timer.record(() -> {
-            try {
-                Account account = ofNullable(bankService.getAccount(accountId)).orElseThrow(AccountNotFoundException::new);
-            } catch (BackEndException exception){
-                meterRegistry.counter("backendException", "method", "bankService.getAccount").increment();
-                Logger.getLogger(this.getClass().getName()).info("Backend exception thrown in method: bankService.getAccount");
-            }
-        });*/
-
-        Account account = null;
+        Account account;
 
         Timer.Sample timer = Timer.start(meterRegistry);
         try {
@@ -81,8 +73,9 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
         } catch (BackEndException exception){
             meterRegistry.counter("backendException", "method", "bankService.getAccount").increment();
             Logger.getLogger(this.getClass().getName()).info("Backend exception thrown in method: bankService.getAccount");
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         } finally {
-            timer.stop(Timer.builder("responseTime").tags("method", "balance").register(meterRegistry));
+            timer.stop(Timer.builder("responseTime").tags("method", "bankService.getAccount").register(meterRegistry));
         }
 
         return new ResponseEntity<>(account, HttpStatus.OK);
