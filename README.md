@@ -58,7 +58,8 @@ Note til influx: Forklare det med 1s og count 0
 
 Jeg har laget et dashboard hvor man kan se metrics fra de forskjellig endpointene alene eller alle på likt. Det er også en for backend exceptions.
 
-![image](https://user-images.githubusercontent.com/53129079/143934547-db4678ba-2e71-4d5e-bf15-65c6a8282916.png)
+![image](https://user-images.githubusercontent.com/53129079/143936435-cbc7cef3-507e-4756-b312-cc56bb673bc5.png)
+
 
 #### Litt om logging
 
