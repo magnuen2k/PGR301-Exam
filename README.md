@@ -7,7 +7,7 @@ Forklare litt rundt forbedringer. Her vil det være mye å forbedre.
 Konfigurer github for bedre flyt i utviklingsprosessen ved hjelp av branch protection:
 Naviger til “settings” fanen i ditt repository og velg “branches”. 
 
---BILDE--
+![image](https://user-images.githubusercontent.com/53129079/143934317-f779bb4a-fa6f-4ca2-b13c-333e39998668.png)
 
 Her kan man sette opp “rules” for branches. Dette kan f.eks være at det ikke kan merges til “main” med mindre alle tester kjører og koden kompilerer.
 
@@ -17,7 +17,7 @@ For å kreve at action workflows kjører før en eventuell merge velger man “R
 
 Bilde av teksten beskrevet over:
 
---BILDE--
+![image](https://user-images.githubusercontent.com/53129079/143934381-8a7a7122-03fb-4a81-ad42-12f20a10b7b0.png)
 
 For å få en effektiv flyt i utviklingen bør utviklere opprette en ny branch for hver oppgave de skal jobbe på, for å så lage en pull request til main igjen. Dersom branch protection er satt opp bra vil dette fungere bra. Branch navn kan f.eks være “feature/<navnpåoppgave>”.
 
@@ -40,7 +40,7 @@ For å se tiden kjernesystemet har brukt på en request kan man skrive:
 
     select * from responseTime where count > 0
 
---BILDE--
+![image](https://user-images.githubusercontent.com/53129079/143934468-c670bc69-77af-481a-aeee-2cca110b7df6.png)
 
 Her kan man se hvor lang tid kjernesystemet bruker og hvilken metode det gjelder. Her kan man også se at det ikke er APIet som skaper de trege responstidene.
 
@@ -58,7 +58,7 @@ Note til influx: Forklare det med 1s og count 0
 
 Jeg har laget et dashboard hvor man kan se metrics fra de forskjellig endpointene alene eller alle på likt. Det er også en for backend exceptions.
 
---BILDE--
+![image](https://user-images.githubusercontent.com/53129079/143934547-db4678ba-2e71-4d5e-bf15-65c6a8282916.png)
 
 #### Litt om logging
 
@@ -90,7 +90,7 @@ Når sensor forker dette repo er det viktig at han/hun har nøkler i AWS slik at
 
 Slik som på dette bildet:
 
---BILDE--
+![image](https://user-images.githubusercontent.com/53129079/143934604-5bf90000-1e39-4c8e-b33f-eeeddeda81be.png)
 
 Dersom sensor skal opprette ny backend for statefil i s3, må sensor først opprette en bucket for dette (f.eks i CLI) og så endre navnet på bucket i backend i provider.tf.
 
