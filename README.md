@@ -2,7 +2,7 @@
 
 ## Oppgave - Devops
 
-SkalBank sin nåværende utviklingsflyt har utrolig stort forbedringspotensiale. Ved å både automatisere ut en del av prosessen og ha en bedre git flow kan SkalBank få en sikrere og bedre utviklingsopplevelse.
+SkalBank sin nåværende utviklingsflyt har utrolig stort forbedringspotensiale. Ved å automatisere ut en del av prosessen, måle/overvåke applikasjonen sin og ha en bedre git flow kan SkalBank få en sikrere og bedre utviklingsopplevelse.
 
 Konfigurer github for bedre flyt i utviklingsprosessen ved hjelp av branch protection:
 Naviger til “settings” fanen i ditt repository og velg “branches”. 
@@ -25,17 +25,14 @@ For å få en effektiv flyt i utviklingen bør utviklere opprette en ny branch f
 
 ##### Videre drøfting
 
-At banken har valgt å bruke DevOps prinsipper til videre utvikling er et bra og viktig valg. Dette vil automatisere ut en god del av prosessene som per dags dato gjøres manuelt. Fordelingen mellom API-teamet og “Team Dino” vil da være problematisk ettersom “Team Dino” kun er til for å teste systemet. Denne fordelingen skaper også mye dødtid ettersom begge teamene sitter å venter på hverandre for å kunne utføre jobben sin. Kontinuerlig integrasjon vil eliminere den dårlige arbeidsfordelingen og gjøre at koden som merges til Main branch ikke har test/kompileringsfeil før det settes i produksjon. Derfor vil ikke “Team Dino” være like viktig lenger.
+At banken har valgt å bruke DevOps prinsipper til videre utvikling er et bra og viktig valg. Dette vil automatisere ut en god del av prosessene som per dags dato gjøres manuelt. Fordelingen mellom API-teamet og “Team Dino” vil da være problematisk ettersom “Team Dino” kun er til for å teste systemet. Dersom testerene i “Team Dino” finner noe feil må de rapportere til utviklingsteamet at det er feil i koden, og så må utviklerne finne den for å så sende en ny JAR gjennom Jens. Denne fordelingen skaper utrolig mye kaos uten struktur og mye dødtid ettersom begge teamene sitter å venter på hverandre for å kunne utføre jobben sin. Kontinuerlig integrasjon og skrive tester underveis vil eliminere den dårlige arbeidsfordelingen og gjøre at koden som merges til Main branch ikke har test/kompileringsfeil før det settes i produksjon. En konsekvens av dette vil være at “Team Dino” burde restruktureres for å passe bedre med DevOps prinsipper for team og utvikling, med flere mindre team med god kommunikasjon seg imellom. 
 
 CI/CD automatisering vil åpne opp for muligheter til å gjøre mindre og oftere releases. Dette skaper mindre feil og gjør at det er lettere å gå tilbake hvis noe feil skal oppstå. Feil vil også være lettere å fikser ettersom det ikke vil være en hel release å debugge.
 
-En annen viktig forbedring ved bruk av DevOps prinsipper vil være kommunikasjon. Måten banken håndterer overlevering på per dags dato er ikke optimal. Det at Jens sitter alene som kommunikasjon og leveransepunkt er dårlig. Ved å 
-Kommunikasjon, dødtid og waste, flaskehals
+En annen viktig forbedring ved bruk av DevOps prinsipper vil være kommunikasjon. Det at det nå sitter to team og jobber hver for seg og all kommunikasjon skal gå gjennom Jens alene vil være problematisk. F.eks at det overleveres en JAR fil med en hel release på av gangen til testing teamet kan skape kaos hvis de finner feil. Da sitter de to teamene og venter på hverandre for å kunne jobbe, dette skaper “waste”. Noen viktige prinsipper er å bli kvitt waste og eliminere flaskehalser og dette kan gjøres ved at kommunikasjonen mellom utviklere og testere/drift ikke kun går gjennom Jens. Dette gjør at Jens blir såkalt “single point of failure”. Det medfører at Jens ikke kan ta seg ferie i f.eks to uker for da går ikke utviklingen rundt, og det vil skape store problemer dersom Jens blir sykemeldt, ufør eller i verste fall dør.
 
-Infra som kode
 Infrastruktur som kode er et viktig steg i forbedringen. Dette gjør både at det er lett å holde styr på infrastrukturen, men også at det er lett å replikere den i et testmiljø. Dette er også en del som automatiseres og gjør det lett å gjøre endringer.
 
-Metrics
 Banken har i dag dårlig styr på hvorfor det er så mye feil i applikasjonen og hvor disse feilene oppstår. En viktig forbedring her vil være å utnytte loggeverktøy og konfigurere applikasjonen med telemetri. Ved hjelp at telemetri kan de måle hvor feil oppstår og gjør det lettere i søket etter feilen i koden. Dette er spesielt viktig hos en bank da det vil være lettere å holde applikasjonen i drift fordi de slipper å restarte applikasjonen ofte uten å vite hvor feilen ligger.
 
 
