@@ -1,4 +1,4 @@
-# Eksamen PGR301
+# Eksamen PGR301 - maen030
 
 ## Oppgave - Devops
 
