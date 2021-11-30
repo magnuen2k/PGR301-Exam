@@ -40,7 +40,7 @@ public class ReallyShakyBankingCoreSystemServiceTest {
 
         a.setBalance(BigDecimal.valueOf(tx.getAmount()));
 
-        assertEquals(BigDecimal.valueOf(tx.getAmount()), a.getBalance());
+        assertEquals(BigDecimal.valueOf(tx.getAmount() - 1), a.getBalance());
 
     }
 }
