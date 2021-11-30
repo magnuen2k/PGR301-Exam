@@ -2,7 +2,7 @@
 
 ## Oppgave - Devops
 
-Forklare litt rundt forbedringer. Her vil det være mye å forbedre.
+SkalBank sin nåværende utviklingsflyt har utrolig stort forbedringspotensiale. Ved å både automatisere ut en del av prosessen og ha en bedre git flow kan SkalBank få en sikrere og bedre utviklingsopplevelse.
 
 Konfigurer github for bedre flyt i utviklingsprosessen ved hjelp av branch protection:
 Naviger til “settings” fanen i ditt repository og velg “branches”. 
@@ -21,9 +21,27 @@ Bilde av teksten beskrevet over:
 
 For å få en effektiv flyt i utviklingen bør utviklere opprette en ny branch for hver oppgave de skal jobbe på, for å så lage en pull request til main igjen. Dersom branch protection er satt opp bra vil dette fungere bra. Branch navn kan f.eks være “feature/<navnpåoppgave>”.
 
-Jeg har github pro (man får det gratis når man er student), så branch protection fungerte også i private repo for meg. 
+*Jeg har github pro (man får det gratis når man er student), så branch protection fungerte også i private repo for meg.* 
+
+##### Videre drøfting
+
+At banken har valgt å bruke DevOps prinsipper til videre utvikling er et bra og viktig valg. Dette vil automatisere ut en god del av prosessene som per dags dato gjøres manuelt. Fordelingen mellom API-teamet og “Team Dino” vil da være problematisk ettersom “Team Dino” kun er til for å teste systemet. Denne fordelingen skaper også mye dødtid ettersom begge teamene sitter å venter på hverandre for å kunne utføre jobben sin. Kontinuerlig integrasjon vil eliminere den dårlige arbeidsfordelingen og gjøre at koden som merges til Main branch ikke har test/kompileringsfeil før det settes i produksjon. Derfor vil ikke “Team Dino” være like viktig lenger.
+
+CI/CD automatisering vil åpne opp for muligheter til å gjøre mindre og oftere releases. Dette skaper mindre feil og gjør at det er lettere å gå tilbake hvis noe feil skal oppstå. Feil vil også være lettere å fikser ettersom det ikke vil være en hel release å debugge.
+
+En annen viktig forbedring ved bruk av DevOps prinsipper vil være kommunikasjon. Måten banken håndterer overlevering på per dags dato er ikke optimal. Det at Jens sitter alene som kommunikasjon og leveransepunkt er dårlig. Ved å 
+Kommunikasjon, dødtid og waste, flaskehals
+
+Infra som kode
+Infrastruktur som kode er et viktig steg i forbedringen. Dette gjør både at det er lett å holde styr på infrastrukturen, men også at det er lett å replikere den i et testmiljø. Dette er også en del som automatiseres og gjør det lett å gjøre endringer.
+
+Metrics
+Banken har i dag dårlig styr på hvorfor det er så mye feil i applikasjonen og hvor disse feilene oppstår. En viktig forbedring her vil være å utnytte loggeverktøy og konfigurere applikasjonen med telemetri. Ved hjelp at telemetri kan de måle hvor feil oppstår og gjør det lettere i søket etter feilen i koden. Dette er spesielt viktig hos en bank da det vil være lettere å holde applikasjonen i drift fordi de slipper å restarte applikasjonen ofte uten å vite hvor feilen ligger.
+
 
 ## Oppgave - Pipeline
+
+Det står oppgitt i oppgaven at pipeline skal kjøre på hvert *push* mot main. Jeg tolker det slik at den også skal kjøres ved pull request mot main, hvis ikke er litt av poenget med branch protection borte.
 
 Ettersom applikasjonen ofte gir feil vil det være vanskelig å gjøre en ordentlig enhetstest mot servicen. I dette tilfellet vil det være gunstig om testen kjører hver gang for å demonstrerer at pipeline fungerer som det skal, derfor er ikke enhetstesten en “virkelig” service test.
 Jeg har likevel lagt ved en test som kunne vært en ordentlig enhetstest, men kommentert ut.
@@ -52,7 +70,8 @@ For å se hvor mange ganger backend exception har skjedd
 
     select sum(*) from backendException where value > 0
 
-Note til influx: Forklare det med 1s og count 0
+#### Note til influx: 
+Det er konfigurert at applikasjonen skal levere data til influx hvert sekund, derfor vil det være mange records med "0" value. Man må gjøre en spørring med en WHERE count/value > 0 for å se recordene som er målt i requesten.
 
 #### Grafana dashboard
 
