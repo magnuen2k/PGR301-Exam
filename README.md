@@ -144,6 +144,8 @@ Jeg har valgt å ha workflowene delt opp i egne filer for bedre oversikt under �
 
 Jeg har lagt til influxdb.conf i repo ettersom denne må være med for å starte influx.
 
+Dersom man gjør en push direkte til Main vil bygging av docker image og pushing til ECR skje selvom testene brekker. Derfor er det viktig med branch protection som gjør at Main krever en PR hvor tester kjører for å kunne merge.
+
 Kandidatnr:
 
     2014
