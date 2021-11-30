@@ -124,7 +124,7 @@ Vi får oppgitt i oppgaven at applikasjonen, i dockerfilen, skal bygges på jdk-
 
 *Hva vil kommandolinje for å bygge et container image være?*
 
-    docker build -t maen030/skallbankapi .
+    docker build -t maen030/skalbankapi .
 
 *Hva vil kommandolinje for å starte en container være?*
 
@@ -132,12 +132,12 @@ Jeg tar utgangspunkt i at applikasjonen kjører på port 8080.
 
 Starte på port 7777:
 
-    docker run -d -p 7777:8080 --name skallbankapi maen030/skallbankapi
+    docker run -d -p 7777:8080 --name skalbankapi maen030/skalbankapi
 
 På både port 7777 og 8888:
 
-    docker run -d -p 7777:8080 --name skallbankapi maen030/skallbankapi
-    docker run -d -p 8888:8080 --name skallbankapi maen030/skallbankapi
+    docker run -d -p 7777:8080 --name skalbankapi maen030/skalbankapi
+    docker run -d -p 8888:8080 --name skalbankapi maen030/skalbankapi
 
 Etter man har laget og startet en container fra et image, kan man stoppe og starte den samme containeren med docker stop/start <navn/id>
 
