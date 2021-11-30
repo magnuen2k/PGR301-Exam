@@ -1,5 +1,8 @@
 # Eksamen PGR301 - maen030
 
+[![Maven-CI](https://github.com/magnuen2k/PGR301-Exam/actions/workflows/maven-ci.yml/badge.svg)](https://github.com/magnuen2k/PGR301-Exam/actions/workflows/maven-ci.yml)
+[![Push Image to ECR](https://github.com/magnuen2k/PGR301-Exam/actions/workflows/ecr.yml/badge.svg)](https://github.com/magnuen2k/PGR301-Exam/actions/workflows/ecr.yml)
+[![Terraform](https://github.com/magnuen2k/PGR301-Exam/actions/workflows/terraform.yml/badge.svg)](https://github.com/magnuen2k/PGR301-Exam/actions/workflows/terraform.yml)
 ## Oppgave - Devops
 
 SkalBank sin nåværende utviklingsflyt har utrolig stort forbedringspotensiale. Ved å automatisere ut en del av prosessen, måle/overvåke applikasjonen sin og ha en bedre git flow kan SkalBank få en sikrere og bedre utviklingsopplevelse.
