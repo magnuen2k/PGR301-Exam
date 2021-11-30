@@ -1,8 +1,7 @@
 name: Push Image to ECR
 
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
+  # Trigger the workflow on push, only for main branch.
   push:
     branches:
       - main
