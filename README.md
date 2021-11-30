@@ -136,8 +136,8 @@ Starte på port 7777:
 
 På både port 7777 og 8888:
 
-    docker run -d -p 7777:8080 --name skalbankapi maen030/skalbankapi
-    docker run -d -p 8888:8080 --name skalbankapi maen030/skalbankapi
+    docker run -d -p 7777:8080 --name skalbankapi1 maen030/skalbankapi
+    docker run -d -p 8888:8080 --name skalbankapi2 maen030/skalbankapi
 
 Etter man har laget og startet en container fra et image, kan man stoppe og starte den samme containeren med docker stop/start <navn/id>
 
